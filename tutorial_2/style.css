@@ -1,6 +1,6 @@
 /* ===========================================
    TUTORIAL 3: CSS GRID LAYOUT
-   
+
    Your tasks:
    1. Define the page grid on .page-layout
    2. Assign grid-area to each section
@@ -9,7 +9,8 @@
    =========================================== */
 
 /* External font - add your choice from Google Fonts, Inter will not be graded */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&family=Roboto+Slab:wght@400;600&display=swap');
+
 
 :root {
   /* Spacing scale */
@@ -18,18 +19,18 @@
   --spacing-md: 1rem;
   --spacing-lg: 1.5rem;
   --spacing-xl: 2rem;
-  
+
   /* Colors - customize these */
-  --color-bg: hsl(210, 20%, 98%);
-  --color-surface: hsl(0, 0%, 100%);
+  --color-bg: hsl(211, 100%, 95%);
+  --color-surface: hsl(195, 80%, 83%);
   --color-text: hsl(210, 10%, 20%);
   --color-text-muted: hsl(210, 10%, 50%);
-  --color-accent: hsl(220, 80%, 50%);
+  --color-accent: hsl(195, 100%, 24%);
   --color-border: hsla(210, 10%, 20%, 0.1);
-  
+
   /* Typography */
-  --font-body: 'Inter', system-ui, sans-serif;
-  --font-display: 'Inter', system-ui, sans-serif; /* Change this */
+  --font-body: 'Roboto Mono', monospace;
+  --font-display: 'Roboto Slab', serif;
 }
 
 /* Reset */
@@ -47,7 +48,7 @@ body {
 
 /* ===========================================
    TASK 1: PAGE GRID STRUCTURE
-   
+
    Define your grid here. You need:
    - grid-template-areas for the layout map
    - grid-template-columns for column widths
@@ -58,47 +59,67 @@ body {
 
 .page-layout {
   display: grid;
-  /* YOUR CODE: grid-template-areas */
-  /* YOUR CODE: grid-template-columns */
-  /* YOUR CODE: grid-template-rows */
+
+  grid-template-areas:
+    "header"
+    "hero"
+    "list"
+    "footer";
+
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto 1fr auto;
+
   min-height: 100vh;
+
   gap: var(--spacing-md);
 }
 
 /* ===========================================
    TASK 2: ASSIGN GRID AREAS
-   
+
    Connect each section to its named area
    =========================================== */
 
 .site-header {
-  /* YOUR CODE: grid-area */
+  grid-area: header;
   background: var(--color-surface);
   padding: var(--spacing-md) var(--spacing-lg);
   border-bottom: 1px solid var(--color-border);
 }
 
 .hero-section {
-  /* YOUR CODE: grid-area */
+  grid-area: hero;
+  width: 100%;
+  max-width: 110rem;
+  margin: 0 auto;
   padding: var(--spacing-xl);
 }
 
 .list-section {
-  /* YOUR CODE: grid-area */
+  grid-area: list;
+  width: 100%;
+  max-width: 110rem;
+  margin: 0 auto;
   padding: var(--spacing-lg);
 }
 
 .site-footer {
-  /* YOUR CODE: grid-area */
+  grid-area: footer;
   background: var(--color-text);
   color: var(--color-bg);
-  padding: var(--spacing-lg);
+  padding: var(--spacing-lg) 0;
   /* NOTE: Footer should not exceed main content width */
+}
+
+.footer-inner {
+  max-width: 110rem;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
 }
 
 /* ===========================================
    TASK 3: FLEXBOX FOR COMPONENTS
-   
+
    Use Flexbox to arrange items WITHIN grid regions
    =========================================== */
 
@@ -106,6 +127,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  max-width: 110rem;
+  margin: 0 auto;
 }
 
 .nav-links {
@@ -117,38 +140,205 @@ body {
 
 /* Make list items flow horizontally on large screens */
 .list-section {
-  /* YOUR CODE: display flex, gap, wrap behavior */
+  display: flex;
+  gap: var(--spacing-lg);
+  align-items: stretch;
 }
 
 .list-item {
   background: var(--color-surface);
   padding: var(--spacing-lg);
-  border-radius: 0.5rem;
+  border-radius: var(--spacing-md);
   border: 1px solid var(--color-border);
-  /* YOUR CODE: flex-basis or width for sizing */
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* component top section */
+.post-top {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+  gap: var(--spacing-lg);
+  align-items: start;
+}
+
+.image-placeholder {
+  width: 7rem;
+  height: 7rem;
+  background: hsl(210, 10%, 85%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-text-muted);
+}
+
+.item-content {
+  min-width: 0;
+}
+
+.post-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) max-content;
+  gap: var(--spacing-md);
+  align-items: start;
+}
+
+.item-content h2 {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  line-height: 1;
+  font-weight: 600;
+  margin-bottom: var(--spacing-sm);
+}
+
+.item-date {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+}
+
+.item-description {
+  margin-top: var(--spacing-lg);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* author */
+.author {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  white-space: nowrap;
+  font-size: 0.8rem;
+}
+
+.avatar {
+  width: 1.75rem;
+  height: 1.75rem;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: hsl(210, 10%, 80%);
+}
+
+/* post action */
+.post-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-xl);
+  padding: var(--spacing-md) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.action {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  white-space: nowrap;
+  font-size: 0.8rem;
+}
+
+.action-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+/* comments */
+.comments {
+  margin-top: var(--spacing-sm);
+}
+
+.comment {
+  padding: var(--spacing-lg) var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.comment:last-child {
+  border-bottom: 0;
+}
+
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.comment-header > span {
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  font-size: 0.75rem;
+}
+
+.comment p {
+  font-size: 0.9rem;
+  line-height: 1.5;
 }
 
 /* ===========================================
    TASK 4: RESPONSIVE BREAKPOINT
-   
+
    Under 48rem:
    - Stack all grid regions vertically
    - List items should stack vertically too
    =========================================== */
 
 @media (max-width: 48rem) {
+
   .page-layout {
-    /* YOUR CODE: redefine grid-template-areas */
-    /* YOUR CODE: single column layout */
+    grid-template-areas:
+      "header"
+      "hero"
+      "list"
+      "footer";
+
+    grid-template-columns: 1fr;
+
+    grid-template-rows:
+      auto
+      auto
+      auto
+      auto;
   }
-  
+
   .list-section {
-    /* YOUR CODE: change flex-direction if needed */
+    flex-direction: column;
   }
-  
+
   .list-item {
-    /* YOUR CODE: full width on mobile */
+    width: 100%;
   }
+
+  .post-top {
+    grid-template-columns: 7rem minmax(0, 1fr);
+  }
+
+  .site-header {
+    padding: var(--spacing-md) var(--spacing-md);
+  }
+
+  .header-nav {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-md);
+  }
+
+  .nav-links {
+    gap: var(--spacing-sm);
+    flex-wrap: nowrap;
+  }
+
+  .nav-links a {
+    font-size: 0.8rem;
+  }
+
+  .logo {
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+
 }
 
 /* ===========================================
