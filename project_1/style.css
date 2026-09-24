@@ -63,7 +63,7 @@ body::before {
 .recipe-container {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    grid-template-areas: "header" "description" "ingredients" "instructions" "note" "footer";
+    grid-template-areas: "header" "description" "ingredients" "instructions" "footer";
     width: min(100% - 2rem, 76rem);
     min-height: calc(100vh - 2rem);
     margin: 1rem auto 3rem;
