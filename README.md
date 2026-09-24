@@ -9,3 +9,6 @@ MS HCIM - Programming Human-Centered Interfaces
 
 - ### Project 1 : Make an Ugly Page Cute!
   https://justavanee.github.io/INST630/project_1/
+
+- ### Tutorial 4 : Manipulating the DOM with Javascript
+  https://justavanee.github.io/INST630/tutorial_4/
