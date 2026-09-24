@@ -189,7 +189,7 @@ input:focus {
 }
 
 /* ── tasks panel ─────────────────────────────────────── */
-.tasks-panel {
+/* .tasks-panel {
     display: grid;
     gap: var(--space-lg);
     font-family: system-ui, sans-serif;
@@ -244,4 +244,4 @@ input:focus {
 .task-stretch {
     background: var(--color-stretch);
     border-color: #e6c84a;
-}
+} */
