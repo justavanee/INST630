@@ -55,12 +55,14 @@ body {
 
 /* ── page layout: card + tasks side by side ─────────── */
 .page {
-    display: grid;
+    display: flex;
     grid-template-columns: 26rem 1fr;
     gap: var(--space-xl);
-    align-items: start;
+    justify-content: center;
+    align-items: center;
     max-width: 72rem;
     margin: 0 auto;
+    min-height: calc(100vh - 2 * var(--space-lg));
 }
 
 @media (max-width: 52rem) {
@@ -77,8 +79,8 @@ body {
     padding: var(--space-xl);
     display: grid;
     gap: var(--space-lg);
-    position: sticky;
-    top: var(--space-lg);
+    width: 26rem;
+    max-width: 100%;
 }
 
 .event-header {
