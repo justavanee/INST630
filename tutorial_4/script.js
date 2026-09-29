@@ -163,6 +163,11 @@ const updateConfirmation = () => {
 // Hint: use the isGoing and isNotGoing variables to check.
 
 nameInput.addEventListener('input', () => {
+  if (nameInput.value.trim() === '') {
+    resetCard();
+    return;
+  }
+  
   if (isGoing)
   {
     updateConfirmation();
