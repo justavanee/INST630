@@ -120,6 +120,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 <div class = "restaurant-item">
                     <div class = "restaurant-name">${resto.name}</div>
                     <div class = "restaurant-cuisine">${resto.cuisine}</div>
+                    <div class = "restaurant-rating">${resto.rating}</div>
+                    <div class = "restaurant-price">${resto.priceRange}</div>
                 </div>`;
         });
         
@@ -162,7 +164,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 <div class="restaurant-item">
                     <div class="restaurant-name">${restaurant.name}</div>
                     <div class="restaurant-cuisine">${restaurant.cuisine}</div>
-                    <span class="restaurant-price">${restaurant.priceRange}</span>
+                    <div class = "restaurant-rating">${restaurant.rating}</div>
+                    <div class = "restaurant-price">${restaurant.priceRange}</div>
                 </div>`;
         });
         
@@ -234,8 +237,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
             foundItem.innerHTML = `
                 <div class="found-restaurant">
                     <div class="restaurant-name">${bestRestaurant.name}</div>
-                    <div>${bestRestaurant.cuisine}</div>
-                    <div>Rating: ${bestRestaurant.rating}</div>
+                    <div>Cuisine : ${bestRestaurant.cuisine}</div>
+                    <div>Rating : ${bestRestaurant.rating}</div>
+                    <div>Price : ${bestRestaurant.priceRange}</div>
                 </div>
             `;
         }
