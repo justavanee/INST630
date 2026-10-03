@@ -12,3 +12,6 @@ MS HCIM - Programming Human-Centered Interfaces
 
 - ### Tutorial 4 : Manipulating the DOM with Javascript
   https://justavanee.github.io/INST630/tutorial_4/
+
+- ### Tutorial 5 : Array Methods For Data
+  https://justavanee.github.io/INST630/tutorial_5/
