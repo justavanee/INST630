@@ -115,16 +115,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
         restaurantList.innerHTML = '';
 
         // Step 2: Use forEach to go through each restaurant
-        restaurants.forEach((resto, index) => {
-            restaurantList.innerHTML += `<div>${resto.name}</div>`
-        })
+        restaurants.forEach((resto) => {
+            restaurantList.innerHTML += `
+                <div class = "restaurant-item">
+                    <div class = "restaurant-name">${resto.name}</div>
+                    <div class = "restaurant-cuisine">${resto.cuisine}</div>
+                </div>`;
+        });
         
         // Step 3: For each restaurant, create HTML and add it to the list
         // Hint: Create a div with restaurant.name and restaurant.cuisine
         // Hint: Use restaurantList.innerHTML += to add each one
         
-        // YOUR CODE HERE:
-        
+        // YOUR CODE HERE: 
         
         console.log('Displayed all restaurants using forEach');
     });
@@ -139,7 +142,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const filterButton = document.querySelector('#filter-button');
     const filteredList = document.querySelector('#filtered-list');
     
-    filterButton.addEventListener('click', (event) =>{
+    filterButton.addEventListener('click', (event) => {
         // Step 1: Use filter to get only cheap restaurants
         // Hint: const cheapRestaurants = restaurants.filter((restaurant) =>{ return condition; })
         // Hint: Check if restaurant.priceRange is "$" or "$$"
@@ -148,7 +151,20 @@ document.addEventListener('DOMContentLoaded', (event) => {
         // Hint: Use forEach on the cheapRestaurants array
         
         // YOUR CODE HERE:
-        
+        const cheapRestaurants = restaurants.filter((restaurant) => {
+            return restaurant.priceRange === '$' || restaurant.priceRange === '$$';
+        });
+
+        filteredList.innerHTML = '';
+
+        cheapRestaurants.forEach((restaurant) => {
+            filteredList.innerHTML += `
+                <div class="restaurant-item">
+                    <div class="restaurant-name">${restaurant.name}</div>
+                    <div class="restaurant-cuisine">${restaurant.cuisine}</div>
+                    <span class="restaurant-price">${restaurant.priceRange}</span>
+                </div>`;
+        });
         
         console.log('Showed cheap restaurants using filter');
     });
@@ -172,7 +188,20 @@ document.addEventListener('DOMContentLoaded', (event) => {
         // Hint: You can use forEach on the names array, or join() method
         
         // YOUR CODE HERE:
-        
+        const names = restaurants.map((restaurant) => {
+            return restaurant.name;
+        });
+
+        mappedList.innerHTML = '<ul class="name-list"></ul>';
+
+        const nameList = mappedList.querySelector('.name-list');
+
+        names.forEach((name) => {
+            nameList.innerHTML += `
+                <div class = "restaurant-name">
+                    <li>${name}</li>
+                </div>`;
+        });
         
         console.log('Showed restaurant names using map');
     });
@@ -197,7 +226,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
         // Hint: Show the name, cuisine, and rating
         
         // YOUR CODE HERE:
-        
+        const bestRestaurant = restaurants.find((restaurant) => {
+            return restaurant.rating === 4.8;
+        });
+
+        if (bestRestaurant) {
+            foundItem.innerHTML = `
+                <div class="found-restaurant">
+                    <div class="restaurant-name">${bestRestaurant.name}</div>
+                    <div>${bestRestaurant.cuisine}</div>
+                    <div>Rating: ${bestRestaurant.rating}</div>
+                </div>
+            `;
+        }
         
         console.log('Found best restaurant using find');
     });
