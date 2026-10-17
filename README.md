@@ -15,3 +15,6 @@ MS HCIM - Programming Human-Centered Interfaces
 
 - ### Tutorial 5 : Array Methods For Data
   https://justavanee.github.io/INST630/tutorial_5/
+
+- ### Tutorial 6 : Load Slow Data
+  https://justavanee.github.io/INST630/tutorial_6/
