@@ -18,3 +18,6 @@ MS HCIM - Programming Human-Centered Interfaces
 
 - ### Tutorial 6 : Load Slow Data
   https://justavanee.github.io/INST630/tutorial_6/
+
+- ### Tutorial 7 : Data Shapes and Libraries
+  https://justavanee.github.io/INST630/tutorial_7/
