@@ -29,6 +29,19 @@ document.querySelector('#make-lists').addEventListener('click', () => {
   // Hint: priceLabels = Object.keys(priceCounts);    gives ['$$', '$$$', ...]
   // Hint: priceNumbers = Object.values(priceCounts); gives [3, 2, ...]
 
+  restaurants.forEach((restaurant) => {
+    const price = restaurant.priceRange;
+
+    if(priceCounts[price] === undefined) {
+      priceCounts[price] = 0;
+    }
+
+    priceCounts[price] += 1;
+  });
+
+  priceLabels = Object.keys(priceCounts);
+  priceNumbers = Object.values(priceCounts);
+
   showShape('#lists-output', `labels  = ${toText(priceLabels)}\nnumbers = ${toText(priceNumbers)}`);
   setButton('#draw-bar', true);
   setButton('#order-bars', true);
@@ -45,23 +58,48 @@ document.querySelector('#draw-bar').addEventListener('click', () => {
   // YOUR CODE HERE
   // Hint: uncomment this, and replace each ??? with the right thing
   //
-  // drawChart('#bar-chart', {
-  //   type: '???',
-  //   data: {
-  //     labels: ???,
-  //     datasets: [{ label: 'Restaurants', data: ??? }]
-  //   },
-  //   options: {
-  //     plugins: { title: { display: true, text: '???' } },
-  //     scales: {
-  //       x: { title: { display: true, text: '???' } },
-  //       y: { title: { display: true, text: '???' }, beginAtZero: true }
-  //     }
-  //   }
-  // });
+  drawChart('#bar-chart', {
+    type: 'bar',
+    data: {
+      labels: priceLabels,
+      datasets: [
+        { 
+          label: 'Restaurants', 
+          data: priceNumbers 
+        }
+      ]
+    },
+    options: {
+      plugins: { 
+        title: { 
+          display: true, 
+          text: 'Number of Restaurants by Price Range' 
+        } 
+      },
+      scales: {
+        x: { 
+          title: { 
+            display: true, 
+            text: 'Price Range' 
+          } 
+        },
+        y: { 
+          title: 
+          { display: true, 
+            text: 'Number of Restaurants' 
+          }, 
+          beginAtZero: true,
+          ticks : {
+            precision: 0
+          } 
+        }
+      }
+    }
+  });
   //
   // Then write your sentence:
-  // document.querySelector('#bar-summary').textContent = '...';
+  document.querySelector('#bar-summary').textContent = 
+  'This bar chart shows how many of the ${restaurants.length} restaurants fall into each price range.';
 });
 
 // ============================================
@@ -80,6 +118,11 @@ document.querySelector('#order-bars').addEventListener('click', () => {
   // Hint: priceNumbers = priceOrder.map((price) => {
   //   return ???;   (look the price up in priceCounts)
   // });
+  priceLabels = priceOrder;
+
+  priceNumbers = priceOrder.map((price) => {
+    return priceCounts[price] ?? 0;
+  });
 
   showShape('#order-output', `labels  = ${toText(priceLabels)}\nnumbers = ${toText(priceNumbers)}`);
 });
@@ -101,6 +144,61 @@ document.querySelector('#draw-scatter').addEventListener('click', () => {
   //       data: { datasets: [{ label: 'Restaurants', data: points }] }
   //       (a scatter chart has no labels list: each point carries its own x and y)
   // Hint: and write a sentence into #scatter-summary
+
+  const points = restaurants.map((restaurant) => {
+    return {
+      x: restaurant.priceRange.length,
+      y: restaurant.rating
+    };
+  });
+
+  showShape('#points-output', `points = ${toText(points)}`);
+
+  drawChart('#scatter-chart', {
+    type: 'scatter',
+    data: {
+      datasets: [
+        {
+          label: 'Restaurants',
+          data: points
+        }
+      ]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Restaurant Price Range and Rating'
+        }
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Price Range (number of $ signs)'
+          },
+          min: 0,
+          max: 4,
+          ticks: {
+            stepSize: 1,
+            callback: (value) => '$'.repeat(value)
+          }
+        },
+        y: {
+          title: {
+            display: true,
+            text: 'Rating (out of 5)'
+          },
+          min: 0,
+          max: 5
+        }
+      }
+    }
+  });
+
+  document.querySelector('#scatter-summary').textContent =
+  'Each point represents one restaurant. The points farther right have higher price ranges, and points higher up have better ratings.';
+
 });
 
 // ============================================
