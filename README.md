@@ -21,3 +21,6 @@ MS HCIM - Programming Human-Centered Interfaces
 
 - ### Tutorial 7 : Data Shapes and Libraries
   https://justavanee.github.io/INST630/tutorial_7/
+
+- ### Project 2 : One Set, Four Views
+  https://justavanee.github.io/INST630/project_2/
