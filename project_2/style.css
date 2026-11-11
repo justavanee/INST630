@@ -86,6 +86,13 @@ body {
     font-style: italic;
 }
 
+.asst-box {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+}
+
 /* CARD GRID LAYOUT */
 .card-grid {
     display: grid;
@@ -129,6 +136,29 @@ body {
     background: #f8f9fa;
 }
 
+.restaurant-table caption {
+    text-align: left;
+    font-weight: 600;
+    padding: 0.75rem 0;
+}
+
+.restaurant-table tbody tr:nth-child(even) {
+    background: #f4f8fa;
+}
+ 
+.restaurant-table tbody th {
+    text-align: left;
+}
+ 
+.table-scroll {
+    overflow-x: auto;
+    max-width: 100%;
+}
+
+.table-scroll .restaurant-table {
+    min-width: 720px;
+}
+
 /* CATEGORY GROUPS */
 .category-section {
     margin-bottom: 2rem;
@@ -140,9 +170,22 @@ body {
     padding: 1rem;
     margin: 0;
     border-radius: 8px 8px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.category-header span {
+    font-size: 0.85rem;
+    font-weight: 500;
 }
 
 .category-items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
     border: 1px solid var(--border-color);
     border-top: none;
     border-radius: 0 0 8px 8px;
@@ -154,36 +197,23 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 1rem;
 }
 
 .category-item:last-child {
     border-bottom: none;
 }
 
-/* STATS LAYOUT */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
+.category-item small {
+    display: block;
+    color: #59656b;
+    margin-top: 0.3rem;
 }
 
-.stat-card {
-    text-align: center;
-    padding: 2rem;
-    background: linear-gradient(135deg, var(--primary-color), #0056b3);
-    color: white;
-    border-radius: 8px;
-}
-
-.stat-number {
-    font-size: 3rem;
-    font-weight: bold;
-    margin: 0.5rem 0;
-}
-
-.stat-label {
-    font-size: 1.1rem;
-    opacity: 0.9;
+.category-result {
+    font-size: 0.9rem;
+    text-align: right;
+    max-width: 45%;
 }
 
 /* CHARTS LAYOUT */
@@ -197,12 +227,22 @@ body {
 .chart-figure {
     margin: 0;
     padding: 1rem;
+    min-width: 0;
     background: var(--card-background);
     border: 1px solid var(--border-color);
     border-radius: 8px;
 }
 
-.chart-figure canvas {
+.chart-canvas {
+    position: relative;
+    height: 360px;
+}
+ 
+.chart-canvas--tall {
+    height: 560px;
+}
+ 
+.chart-canvas canvas {
     max-width: 100%;
 }
 
@@ -211,103 +251,13 @@ body {
     margin-top: 0.75rem;
 }
 
-.todo-implementation {
-    background: #fff3cd;
-    border: 2px dashed #ffc107;
-    border-radius: 8px;
-    padding: 2rem;
-    text-align: center;
-    color: #856404;
-}
-
-.asst-box {
-    margin-top: 2rem;
-    padding: 1rem;
-    background: white;
-    border-radius: 8px;
-}
-
-.table-scroll {
-  overflow-x: auto;
-  max-width: 100%;
-}
-
-.restaurant-table {
-  min-width: 720px;
-}
-
-.restaurant-table caption {
-  text-align: left;
-  font-weight: 600;
-  padding: 0.75rem 0;
-}
-
-.restaurant-table tbody tr:nth-child(even) {
-  background: #f4f8fa;
-}
-
-.restaurant-table tbody th {
-  text-align: left;
-}
-
-/* CATEGORY VIEW */
-.category-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.category-header span {
-  font-size: 0.85rem;
-  font-weight: 500;
-}
-
-.category-items {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.category-item {
-  gap: 1rem;
-}
-
-.category-item small {
-  display: block;
-  color: #59656b;
-  margin-top: 0.3rem;
-}
-
-.category-result {
-  font-size: 0.9rem;
-  text-align: right;
-  max-width: 45%;
-}
-
-.charts-grid {
-  display: grid;
-  grid-template-columns:
-    repeat(auto-fit, minmax(min(320px, 100%), 1fr));
-  gap: 1.5rem;
-}
-
-.chart-figure {
-  min-width: 0;
-}
-
-.chart-canvas {
-  position: relative;
-  height: 360px;
-}
-
 .chart-data {
-  margin-top: 1rem;
+    margin-top: 1rem;
+    overflow-x: auto;
 }
 
 .chart-data summary {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .view-button:focus-visible,
@@ -336,4 +286,8 @@ summary:focus-visible {
   .chart-canvas {
     height: 320px;
   }
+
+  .chart-canvas--tall {
+        height: 520px;
+    }
 }

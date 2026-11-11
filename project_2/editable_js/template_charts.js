@@ -17,10 +17,7 @@ const valid = value =>
 // Count how many records belong to each group.
 const countBy = (data, field) =>
   data.reduce((counts, item) => {
-    const key = valid(item[field])
-      ? String(item[field])
-      : 'Not listed';
-
+    const key = valid(item[field]) ? String(item[field]) : 'Not listed';
     counts[key] = (counts[key] || 0) + 1;
     return counts;
   }, {});
@@ -36,13 +33,10 @@ const escapeHTML = value =>
 
 // Prepare the data for both charts.
 function chartData(data) {
-  const categories = Object.entries(
-    countBy(data, 'category')
-  ).sort((a, b) => b[1] - a[1]);
+  const categories = Object.entries(countBy(data, 'category')).sort((a, b) => 
+    b[1] - a[1]);
 
-  const results = Object.entries(
-    countBy(data, 'inspection_results')
-  ).sort((a, b) => b[1] - a[1]);
+  const results = Object.entries(countBy(data, 'inspection_results')).sort((a, b) => b[1] - a[1]);
 
   return { categories, results };
 }
@@ -55,8 +49,7 @@ function summary(entries, total) {
 
   const [label, count] = entries[0];
 
-  return `The largest group is ${label}, with
-    ${count} of ${total} inspection records.`;
+  return `The largest group is ${label}, with ${count} of ${total} inspection records.`;
 }
 
 // Provide exact chart values in an accessible table.
@@ -97,8 +90,7 @@ function showCharts(data) {
     <h2 class="view-title">Charts View</h2>
 
     <p class="view-description">
-      Compare business types and inspection outcomes
-      across ${data.length} records.
+      Compare business types and inspection outcomes across ${data.length} records.
     </p>
 
     <div class="charts-grid">
@@ -136,13 +128,10 @@ function showCharts(data) {
         </div>
 
         <figcaption class="chart-summary">
-          ${escapeHTML(summary(results, data.length))}
-          Missing results are labeled "Not listed".
+          ${escapeHTML(summary(results, data.length))} Missing results are labeled "Not listed".
         </figcaption>
 
-        ${accessibleTable(
-          results,
-          'Inspections by recorded result'
+        ${accessibleTable(results, 'Inspections by recorded result'
         )}
       </figure>
 
@@ -152,8 +141,7 @@ function showCharts(data) {
 
 function drawCharts(data) {
   // Chart.js is loaded by a <script> tag in index.html. If it didn't load, say so instead of breaking.
-  if (typeof Chart === 'undefined') {
-    document.querySelectorAll('.chart-canvas').forEach(element => {
+  if (typeof Chart === 'undefined') {document.querySelectorAll('.chart-canvas').forEach(element => {
       element.innerHTML = '<p class="error">Chart.js could not load.</p>';
     });
     return;
