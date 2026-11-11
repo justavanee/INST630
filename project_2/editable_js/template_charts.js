@@ -8,37 +8,154 @@
  *
  * Chart.js docs: https://www.chartjs.org/docs/latest/getting-started/
  */
+const valid = value =>
+  value != null &&
+  value !== '' &&
+  value !== '------' &&
+  value !== 'N/A';
+
+// Count how many records belong to each group.
+const countBy = (data, field) =>
+  data.reduce((counts, item) => {
+    const key = valid(item[field])
+      ? String(item[field])
+      : 'Not listed';
+
+    counts[key] = (counts[key] || 0) + 1;
+    return counts;
+  }, {});
+
+const escapeHTML = value =>
+  String(value).replace(/[&<>"']/g, c => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[c]));
+
+// Prepare the data for both charts.
+function chartData(data) {
+  const categories = Object.entries(
+    countBy(data, 'category')
+  ).sort((a, b) => b[1] - a[1]);
+
+  const results = Object.entries(
+    countBy(data, 'inspection_results')
+  ).sort((a, b) => b[1] - a[1]);
+
+  return { categories, results };
+}
+
+// Create a short description of each chart.
+function summary(entries, total) {
+  if (!entries.length) {
+    return 'No inspection records are available.';
+  }
+
+  const [label, count] = entries[0];
+
+  return `The largest group is ${label}, with
+    ${count} of ${total} inspection records.`;
+}
+
+// Provide exact chart values in an accessible table.
+function accessibleTable(entries, caption) {
+  const rows = entries.map(([label, count]) => `
+    <tr>
+      <th scope="row">${escapeHTML(label)}</th>
+      <td>${count}</td>
+    </tr>
+  `).join('');
+
+  return `
+    <details class="chart-data">
+      <summary>View chart numbers as a table</summary>
+        <table class="restaurant-table">
+          <caption>${caption}</caption>
+
+          <thead>
+            <tr>
+              <th scope="col">Group</th>
+              <th scope="col">Inspections</th>
+            </tr>
+          </thead>
+
+          <tbody>${rows}</tbody>
+        </table>
+    </details>
+  `;
+}
+
 function showCharts(data) {
   // TODO: Replace each TODO sentence below with text that says what that chart shows.
   // Charts are drawn as pictures, so screen readers can't read them.
   /*html*/
+    const { categories, results } = chartData(data);
+
   return `
-                <h2 class="view-title">📈 Charts View</h2>
-                <p class="view-description">Patterns in the data at a glance</p>
-                <div class="todo-implementation">
-                    <h3>TODO: Implement Charts View</h3>
-                    <p><strong>Your task:</strong> Draw at least two charts of different types, each answering a different question</p>
-                    <p><strong>Good for:</strong> Spotting patterns, comparing groups, seeing distributions</p>
-                    <p><strong>Records available:</strong> ${data.length} items to chart</p>
-                </div>
-                <div class="charts-grid">
-                    <figure class="chart-figure">
-                        <canvas id="chart-one"></canvas>
-                        <figcaption class="chart-summary">TODO: One sentence saying what this chart shows.</figcaption>
-                    </figure>
-                    <figure class="chart-figure">
-                        <canvas id="chart-two"></canvas>
-                        <figcaption class="chart-summary">TODO: One sentence saying what this chart shows.</figcaption>
-                    </figure>
-                </div>
-            `;
+    <h2 class="view-title">Charts View</h2>
+
+    <p class="view-description">
+      Compare business types and inspection outcomes
+      across ${data.length} records.
+    </p>
+
+    <div class="charts-grid">
+
+      <figure class="chart-figure">
+        <h3>Inspections by business type</h3>
+
+        <div class="chart-canvas">
+          <canvas id="chart-one"
+                  role="img"
+                  aria-label="Bar chart of inspections
+                  by business type">
+          </canvas>
+        </div>
+
+        <figcaption class="chart-summary">
+          ${escapeHTML(summary(categories, data.length))}
+        </figcaption>
+
+        ${accessibleTable(
+          categories,
+          'Inspections by business type'
+        )}
+      </figure>
+
+      <figure class="chart-figure">
+        <h3>Distribution of inspection results</h3>
+
+        <div class="chart-canvas">
+          <canvas id="chart-two"
+                  role="img"
+                  aria-label="Doughnut chart of
+                  inspection results">
+          </canvas>
+        </div>
+
+        <figcaption class="chart-summary">
+          ${escapeHTML(summary(results, data.length))}
+          Missing results are labeled "Not listed".
+        </figcaption>
+
+        ${accessibleTable(
+          results,
+          'Inspections by recorded result'
+        )}
+      </figure>
+
+    </div>
+  `;
 }
 
 function drawCharts(data) {
   // Chart.js is loaded by a <script> tag in index.html. If it didn't load, say so instead of breaking.
   if (typeof Chart === 'undefined') {
-    document.querySelector('.charts-grid').innerHTML =
-      '<p class="error">Chart.js did not load, so the charts can\'t be drawn. Check the &lt;script&gt; tag in index.html.</p>';
+    document.querySelectorAll('.chart-canvas').forEach(element => {
+      element.innerHTML = '<p class="error">Chart.js could not load.</p>';
+    });
     return;
   }
 
@@ -76,6 +193,102 @@ function drawCharts(data) {
   // (pie, line, scatter...) into <canvas id="chart-two">, answering a different question.
   // Ideas: inspection results as a pie, inspections per month as a line,
   // or how many "Out of Compliance" checks each type of business averages.
+  const { categories, results } = chartData(data);
+
+  // Colors for the doughnut chart.
+  const palette = [
+    '#176b8a',
+    '#e1a342',
+    '#438c79',
+    '#b96568',
+    '#7b76a8',
+    '#5b8198',
+    '#a16b46',
+    '#8d9c56',
+    '#677887'
+  ];
+
+  // CHART 1: Bar chart
+  new Chart(document.getElementById('chart-one'), {
+    type: 'bar',
+
+    data: {
+      labels: categories.map(([name]) => name),
+
+      datasets: [{
+        label: 'Number of inspections',
+        data: categories.map(([, count]) => count),
+        backgroundColor: '#176b8a'
+      }]
+    },
+
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+
+      plugins: {
+        title: {
+          display: true,
+          text: 'Inspections by business type'
+        },
+        legend: {
+          display: false
+        }
+      },
+
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Business type'
+          }
+        },
+        y: {
+          beginAtZero: true,
+          ticks: {
+            precision: 0
+          },
+          title: {
+            display: true,
+            text: 'Number of inspections'
+          }
+        }
+      }
+    }
+  });
+
+  // CHART 2: Doughnut chart
+  new Chart(document.getElementById('chart-two'), {
+    type: 'doughnut',
+
+    data: {
+      labels: results.map(([name]) => name),
+
+      datasets: [{
+        label: 'Inspections',
+        data: results.map(([, count]) => count),
+
+        backgroundColor: results.map(
+          (_, index) => palette[index % palette.length]
+        )
+      }]
+    },
+
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+
+      plugins: {
+        title: {
+          display: true,
+          text: 'Share of inspections by recorded result'
+        },
+        legend: {
+          position: 'bottom'
+        }
+      }
+    }
+  });
 }
 
 export { showCharts, drawCharts };
