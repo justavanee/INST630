@@ -1,14 +1,12 @@
 # INST630
 MS HCIM - Programming Human-Centered Interfaces
 
+## Tutorials
 - ### Tutorial 1 : Adding CSS 
   https://justavanee.github.io/INST630/tutorial_1/
 
 - ### Tutorial 2 : Grids & Flexboxes
   https://justavanee.github.io/INST630/tutorial_2/
-
-- ### Project 1 : Make an Ugly Page Cute!
-  https://justavanee.github.io/INST630/project_1/
 
 - ### Tutorial 4 : Manipulating the DOM with Javascript
   https://justavanee.github.io/INST630/tutorial_4/
@@ -21,6 +19,10 @@ MS HCIM - Programming Human-Centered Interfaces
 
 - ### Tutorial 7 : Data Shapes and Libraries
   https://justavanee.github.io/INST630/tutorial_7/
+
+## Projects
+- ### Project 1 : Make an Ugly Page Cute!
+  https://justavanee.github.io/INST630/project_1/
 
 - ### Project 2 : One Set, Four Views
   https://justavanee.github.io/INST630/project_2/
